@@ -51,7 +51,7 @@ def slp_train(X, y, learning_rate, epochs):
 learning_rate = 1
 epochs = 10
 
-X, y = load_dataset("and_gate.csv")
+X, y = load_dataset("datasets/and_gate.csv")
 X = preprocess_data(X)
 
 # training slp and collecting weights and loss values
