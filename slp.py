@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 # Loading the dataset
 def load_dataset(filename):
     data = np.genfromtxt(filename, delimiter=",")
+    data = np.delete(data, 0, axis=0)
+    # print(data)
     X = data[:, :-1]
     y = data[:, -1]
     return X, y
@@ -12,13 +14,14 @@ def load_dataset(filename):
 
 # Preprocessing the data (normalization and adding bias term)
 def preprocess_data(X):
+    X[np.isnan(X)] = 0
     # min-max normalization
     min_vals = np.min(X, axis=0)
     max_vals = np.max(X, axis=0)
     X_normalised = (X - min_vals) / (max_vals - min_vals)
 
     # or use this z-score normalization
-    # X_normalized = (X - X.mean(axis=0)) / X.std(axis=0)
+    # X_normalised = (X - X.mean(axis=0)) / X.std(axis=0)
     bias_col = np.ones((X.shape[0], 1))
     return np.concatenate((bias_col, X_normalised), axis=1)
 
@@ -51,7 +54,7 @@ def slp_train(X, y, learning_rate, epochs):
 learning_rate = 1
 epochs = 10
 
-X, y = load_dataset("datasets/and_gate.csv")
+X, y = load_dataset("datasets/diabetes.csv")
 X = preprocess_data(X)
 
 # training slp and collecting weights and loss values
