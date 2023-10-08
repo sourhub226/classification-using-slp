@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
 
 # Loading the dataset
@@ -49,6 +50,12 @@ def slp_train(X, y, learning_rate, epochs):
     return weights, losses
 
 
+# Calculating accuracy
+def calc_accuracy(X, y, weights):
+    y_pred = predict(X, weights)
+    return np.mean(y == y_pred)
+
+
 # -----start here-----
 # parameters
 learning_rate = 1
@@ -57,17 +64,21 @@ epochs = 200
 X, y = load_dataset("datasets/ionosphere_pre.csv")
 X = preprocess_data(X)
 
-# training slp and collecting weights and loss values
-weights, losses = slp_train(X, y, learning_rate=learning_rate, epochs=epochs)
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2)
 
+# Training SLP on the training data
+weights, losses = slp_train(
+    X_train, y_train, learning_rate=learning_rate, epochs=epochs
+)
 print(f"W* = {weights}")
 
-# testing the perceptron model
-y_pred = predict(X, weights)
+# Calculating accuracy on training data and testing data
+print(
+    f"Accuracy on training data = {calc_accuracy(X_train,y_train,weights) * 100:.2f}%"
+)
+print(f"Accuracy on testing data = {calc_accuracy(X_test,y_test,weights) * 100:.2f}%")
 
-# calculating accuracy
-acc = np.mean(y == y_pred)
-print(f"Accuracy = {acc * 100:.2f}%")
 
 # ploting loss vs epochs
 plt.plot(range(len(losses)), losses)
@@ -76,10 +87,3 @@ plt.ylabel("Loss")
 plt.title("Loss vs. Epochs")
 plt.show()
 
-
-# # TODO: predict class based on user ip
-# X_test = np.array([])
-# X_test = np.insert(X_test, 0, 1)  # adding bias
-# print(X_test)
-# y_test = predict(X_test, weights)
-# print(y_test)

@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-dataset = "rice.csv"
+dataset = "datasets/ionosphere.data"
 df = pd.read_csv(dataset)
 # Assuming your DataFrame is called 'df'
 # Identify the last column (class labels)
