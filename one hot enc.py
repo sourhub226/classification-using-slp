@@ -1,6 +1,6 @@
 import pandas as pd
 
-dataset = "datasets/bmi.csv"
+dataset = "datasets/ionosphere.data"
 df = pd.read_csv(dataset)
 
 # spliting df into X and y
@@ -22,4 +22,4 @@ df_processed = pd.concat([X_processed, y_processed], axis=1)
 print(df_processed)
 
 # saving processed dataset
-df_processed.to_csv(f'{dataset.replace(".csv","")}_preprocessed.csv', index=False)
+df_processed.to_csv(f'{dataset.replace(".csv","")}_pre.csv', index=False)
